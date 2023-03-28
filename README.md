@@ -1,5 +1,6 @@
 # Whisper Mic
-This repo is based on the work done [here](https://github.com/openai/whisper) by OpenAI.  This repo allows you use use a mic as demo. This repo copies some of the README from original project.
+
+This repo is based on the work done [here](https://github.com/openai/whisper) by OpenAI. This repo allows you use use a mic as demo. This repo copies some of the README from original project.
 
 ## Video Tutorial
 
@@ -8,16 +9,14 @@ See the video tutorial for this repo [here](https://www.youtube.com/watch?v=nwPa
 ## Setup
 
 1. Create a venv of your choice.
-2. Run ```pip install -r requirements.txt```
-
+2. Run `pip install -r requirements.txt`
 
 ## Available models and languages
 
-There are five model sizes, four with English-only versions, offering speed and accuracy tradeoffs. Below are the names of the available models and their approximate memory requirements and relative speed. 
-
+There are five model sizes, four with English-only versions, offering speed and accuracy tradeoffs. Below are the names of the available models and their approximate memory requirements and relative speed.
 
 |  Size  | Parameters | English-only model | Multilingual model | Required VRAM | Relative speed |
-|:------:|:----------:|:------------------:|:------------------:|:-------------:|:--------------:|
+| :----: | :--------: | :----------------: | :----------------: | :-----------: | :------------: |
 |  tiny  |    39 M    |     `tiny.en`      |       `tiny`       |     ~1 GB     |      ~32x      |
 |  base  |    74 M    |     `base.en`      |       `base`       |     ~1 GB     |      ~16x      |
 | small  |   244 M    |     `small.en`     |      `small`       |     ~2 GB     |      ~6x       |
@@ -28,23 +27,37 @@ For English-only applications, the `.en` models tend to perform better, especial
 
 ## Microphone Demo
 
-You can use the model with a microphone using the ```mic.py``` program.  Use ```-h``` to see flag options.
+You can use the model with a microphone using the `mic.py` program. Use `-h` to see flag options.
 
-Some of the more important flags are the ```--model``` and ```--english``` flags.
+Some of the more important flags are the `--model` and `--english` flags.
 
 ## Troubleshooting
 
-If you are having issues with the ```mic.py``` not running try the following:
+If you are having issues with the `mic.py` not running try the following:
+
 ```
 sudo apt install portaudio19-dev python3-pyaudio
 ```
-
 
 ## License
 
 The code and the model weights of Whisper are released under the MIT License. See their repo for more information.
 
-The code under this repo is under the AGPL license.  See [LICENSE](LICENSE) for further details.
+The code under this repo is under the AGPL license. See [LICENSE](LICENSE) for further details.
 
 ## Thanks
-Until recently, access to high performing speech to text models was only available through paid serviecs.  With this release, I am excited for the many applications that will come.
+
+Until recently, access to high performing speech to text models was only available through paid serviecs. With this release, I am excited for the many applications that will come.
+
+## Nek's steps
+
+python -m spacy download en_core_web_trf
+
+### IDEAS to try
+
+- make a deamon service for helper.py which will keep the model in memory and will be able to respond to requests from mic.py
+- make helper.py execute bash commands
+- make a deamon service for mic.py which will keep the model in memory and will be able to do the following
+  - listen to the mic
+  - if a certain hotkey is pressed then send generated text to clipboard or directly to the screen
+  - else send it to helper.py and let it do the work
