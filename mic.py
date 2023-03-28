@@ -11,12 +11,12 @@ import torch
 import numpy as np
 
 @click.command()
-@click.option("--model", default="base", help="Model to use", type=click.Choice(["tiny","base", "small","medium","large"]))
-@click.option("--english", default=False, help="Whether to use English model",is_flag=True, type=bool)
+@click.option("--model", default="medium", help="Model to use", type=click.Choice(["tiny","base", "small","medium","large"]))
+@click.option("--english", default=True, help="Whether to use English model",is_flag=True, type=bool)
 @click.option("--verbose", default=False, help="Whether to print verbose output", is_flag=True,type=bool)
 @click.option("--energy", default=300, help="Energy level for mic to detect", type=int)
 @click.option("--dynamic_energy", default=False,is_flag=True, help="Flag to enable dynamic engergy", type=bool)
-@click.option("--pause", default=0.8, help="Pause time before entry ends", type=float)
+@click.option("--pause", default=2.0, help="Pause time before entry ends", type=float)
 @click.option("--save_file",default=False, help="Flag to save file", is_flag=True,type=bool)
 def main(model, english,verbose, energy, pause,dynamic_energy,save_file):
     temp_dir = tempfile.mkdtemp() if save_file else None
@@ -42,7 +42,7 @@ def record_audio(audio_queue, energy, pause, dynamic_energy, save_file, temp_dir
     r.pause_threshold = pause
     r.dynamic_energy_threshold = dynamic_energy
 
-    with sr.Microphone(sample_rate=16000) as source:
+    with sr.Microphone(device_index=5, sample_rate=16000) as source:
         print("Say something!")
         i = 0
         while True:
