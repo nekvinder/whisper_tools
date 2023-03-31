@@ -1,5 +1,6 @@
 numpy
 spacy
+python-daemon
 tqdm
 more-itertools
 transformers>=4.19.0

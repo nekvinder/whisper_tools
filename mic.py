@@ -79,4 +79,6 @@ def transcribe_forever(audio_queue, result_queue, audio_model, english, verbose,
         if save_file:
             os.remove(audio_data)
 
-main()
+if __name__ == "__main__":
+    main()
+
