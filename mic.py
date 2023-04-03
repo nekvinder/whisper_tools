@@ -1,4 +1,6 @@
 import io
+import subprocess
+import shlex
 from pydub import AudioSegment
 import speech_recognition as sr
 import whisper
@@ -61,6 +63,18 @@ def record_audio(audio_queue, energy, pause, dynamic_energy, save_file, temp_dir
             audio_queue.put_nowait(audio_data)
             i += 1
 
+def runBashCommand(command, outputFile=None, getOutput=True):
+    shellCommand = shlex.split(command)
+    print(" ".join(shellCommand))
+    if outputFile is None:
+        return subprocess.check_output(shellCommand).decode("utf-8")
+    elif not getOutput:
+        subprocess.Popen(command, shell=True)
+        return True
+    else:
+        c = subprocess.Popen(command, stdout=outputFile, stderr=outputFile, shell=True)
+        c.wait()
+        return True
 
 def transcribe_forever(audio_queue, result_queue, audio_model, english, verbose, save_file):
     while True:
@@ -73,6 +87,12 @@ def transcribe_forever(audio_queue, result_queue, audio_model, english, verbose,
         if not verbose:
             predicted_text = result["text"]
             result_queue.put_nowait("You said: " + predicted_text)
+            # trim predicted_text
+            predicted_text = predicted_text.strip()
+
+            # check if predicted text is empty
+            if predicted_text != "" and predicted_text != "Thank you.":
+                print(runBashCommand(f'copyq tab predictedTexts add "{predicted_text}"'))
         else:
             result_queue.put_nowait(result)
 
